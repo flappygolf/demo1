@@ -193,6 +193,11 @@ class HexGame {
         );
         if (newCell) {
             newCell.classList.add(this.currentPlayer);
+            // 更新棋子颜色
+            const polygon = newCell.querySelector('polygon');
+            if (polygon) {
+                polygon.setAttribute('fill', this.currentPlayer === 'red' ? this.board.options.redColor : this.board.options.blueColor);
+            }
         }
         
         // 更新历史记录
@@ -474,6 +479,11 @@ class HexGame {
         );
         if (cell) {
             cell.classList.add(this.currentPlayer);
+            // 更新棋子颜色
+            const polygon = cell.querySelector('polygon');
+            if (polygon) {
+                polygon.setAttribute('fill', this.currentPlayer === 'red' ? this.board.options.redColor : this.board.options.blueColor);
+            }
         }
         
         // 增加移动计数
