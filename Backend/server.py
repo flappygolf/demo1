@@ -96,3 +96,25 @@ def upload_ai():
         # 加载自定义AI
         try:
             global custom_ai
+            # 动态导入自定义AI模块
+            spec = importlib.util.spec_from_file_location('custom_ai_module', file_path)
+            custom_ai_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(custom_ai_module)
+            
+            # 检查模块中是否有CustomAI类
+            if hasattr(custom_ai_module, 'CustomAI'):
+                custom_ai = custom_ai_module.CustomAI()
+                return jsonify({
+                    'success': True,
+                    'message': '自定义AI加载成功'
+                })
+            else:
+                return jsonify({
+                    'success': False,
+                    'error': '文件中没有找到CustomAI类'
+                })
+        except Exception as e:
+            return jsonify({
+                'success': False,
+                'error': f'加载自定义AI失败: {str(e)}'
+            })
