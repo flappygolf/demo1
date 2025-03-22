@@ -23,6 +23,8 @@ class HexBoard {
 
         // 创建SVG元素
         this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        this.svg.style.position = 'relative';
+        this.svg.style.zIndex = '5'; // 确保SVG元素在较高层级
         this.container.appendChild(this.svg);
 
         // 初始化棋盘数据
@@ -123,6 +125,9 @@ class HexBoard {
         polygon.setAttribute('fill', 'white');
         polygon.setAttribute('stroke', '#333');
         polygon.setAttribute('stroke-width', '1');
+        
+        // 添加过渡效果
+        polygon.setAttribute('style', 'transition: fill 0.3s, stroke-width 0.3s, filter 0.3s');
 
         group.appendChild(polygon);
         group.style.transform = `translate(${size}px, ${size}px)`;
@@ -295,7 +300,7 @@ class HexBoard {
         rowLabels.innerHTML = '';
 
         // 设置标签样式
-        const labelStyle = 'position: absolute; font-size: 12px; color: #333; font-weight: bold;';
+        const labelStyle = 'position: absolute; font-size: 12px; color: #333; font-weight: bold; z-index: 15;';
         
         // 设置CSS变量
         document.documentElement.style.setProperty('--red-color', this.options.redColor);
@@ -370,3 +375,4 @@ class HexBoard {
             rowLabels.appendChild(label);
         }
     }
+}

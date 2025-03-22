@@ -87,8 +87,11 @@ class HexGame {
         const q = parseInt(cell.dataset.q);
         const r = parseInt(cell.dataset.r);
         
+        // 检查坐标是否有效
+        if (isNaN(q) || isNaN(r) || q < 0 || r < 0 || q >= this.board.options.size || r >= this.board.options.size) return;
+        
         // 检查格子是否已被占用
-        if (this.board.boardData[r][q] !== null) return;
+        if (this.board.boardData[r] && this.board.boardData[r][q] !== null) return;
         
         // 执行移动
         this.makeMove(q, r);
@@ -371,10 +374,22 @@ class HexGame {
         const statusMessage = document.getElementById('status-message');
         const swapButton = document.getElementById('swap-btn');
         
+        // 更新玩家状态高亮
+        const redPlayer = document.querySelector('.player.red');
+        const bluePlayer = document.querySelector('.player.blue');
+        
+        if (redPlayer && bluePlayer) {
+            redPlayer.classList.toggle('current', this.currentPlayer === 'red' && !this.gameOver);
+            bluePlayer.classList.toggle('current', this.currentPlayer === 'blue' && !this.gameOver);
+        }
+        
         if (statusMessage) {
             if (this.gameOver) {
                 statusMessage.textContent = `游戏结束，${this.winner === 'red' ? '红方' : '蓝方'}获胜！`;
                 if (swapButton) swapButton.style.display = 'none';
+                
+                // 高亮显示胜利路径
+                this.highlightWinningPath();
             } else {
                 statusMessage.textContent = `当前回合：${this.currentPlayer === 'red' ? '红方' : '蓝方'}`;
                 
@@ -495,12 +510,90 @@ class HexGame {
         this.updateGameState();
         
         return true;
-    } (this.moveCount === 1) {
-            this.swapAvailable = true;
-            this.firstMovePosition = { q, r };
+    }
+    
+    /**
+     * 高亮显示胜利路径
+     */
+    highlightWinningPath() {
+        if (!this.gameOver || !this.winner) return;
+        
+        const size = this.board.options.size;
+        const visited = Array(size).fill().map(() => Array(size).fill(false));
+        const path = [];
+        
+        // 找到起始点
+        if (this.winner === 'red') {
+            // 红方连接左右边界
+            for (let r = 0; r < size; r++) {
+                if (this.board.boardData[r][0] === 'red') {
+                    this.findWinningPath(0, r, 'red', visited, path);
+                    break;
+                }
+            }
+        } else {
+            // 蓝方连接上下边界
+            for (let q = 0; q < size; q++) {
+                if (this.board.boardData[0][q] === 'blue') {
+                    this.findWinningPath(q, 0, 'blue', visited, path);
+                    break;
+                }
+            }
+        }
+        
+        // 高亮路径上的格子
+        path.forEach(pos => {
+            const cell = this.board.cells.find(cell => 
+                parseInt(cell.dataset.q) === pos.q && parseInt(cell.dataset.r) === pos.r
+            );
+            if (cell) {
+                cell.classList.add('winning-path');
+            }
+        });
+    }
+    
+    /**
+     * 寻找胜利路径
+     */
+    findWinningPath(q, r, player, visited, path) {
+        const size = this.board.options.size;
+        
+        // 标记当前格子为已访问
+        visited[r][q] = true;
+        path.push({ q, r });
+        
+        // 检查是否到达对面边界
+        if ((player === 'red' && q === size - 1) || 
+            (player === 'blue' && r === size - 1)) {
+            return true;
+        }
+        
+        // 六边形的六个相邻方向
+        const directions = [
+            [-1, 0], [1, 0], [0, -1], [0, 1], [-1, 1], [1, -1]
+        ];
+        
+        // 检查所有相邻格子
+        for (const [dq, dr] of directions) {
+            const newQ = q + dq;
+            const newR = r + dr;
+            
+            // 检查边界
+            if (newQ >= 0 && newQ < size && newR >= 0 && newR < size) {
+                // 检查是否是同一玩家的格子且未访问过
+                if (this.board.boardData[newR][newQ] === player && !visited[newR][newQ]) {
+                    if (this.findWinningPath(newQ, newR, player, visited, path)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        // 如果当前路径不是胜利路径，则移除
+        path.pop();
+        return false;
+    }
         } else {
             this.swapAvailable = false;
         }
-        
-        // 添加到历史记录（如果不是重放）
-        if
+    

@@ -37,43 +37,65 @@ class HexSaveLoad {
      * 保存游戏棋谱
      */
     saveGame() {
-        // 创建游戏数据对象
-        const gameData = {
-            boardSize: this.game.board.options.size,
-            firstPlayer: this.game.options.firstPlayer,
-            gameMode: this.game.options.gameMode,
-            aiDifficulty: this.game.options.aiDifficulty,
-            moves: this.game.history,
-            boardOptions: {
-                redColor: this.game.board.options.redColor,
-                blueColor: this.game.board.options.blueColor,
-                boardColor: this.game.board.options.boardColor,
-                cellSize: this.game.board.options.cellSize,
-                orientation: this.game.board.options.orientation
+        try {
+            // 检查是否有移动记录
+            if (this.game.history.length === 0) {
+                alert('没有可保存的棋谱，请先进行游戏。');
+                return;
             }
-        };
-        
-        // 转换为JSON字符串
-        const gameDataJson = JSON.stringify(gameData, null, 2);
-        
-        // 创建下载链接
-        const blob = new Blob([gameDataJson], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        
-        // 创建下载元素
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `hex_game_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
-        document.body.appendChild(a);
-        
-        // 触发下载
-        a.click();
-        
-        // 清理
-        setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, 0);
+            
+            // 创建游戏数据对象
+            const gameData = {
+                boardSize: this.game.board.options.size,
+                firstPlayer: this.game.options.firstPlayer,
+                gameMode: this.game.options.gameMode,
+                aiDifficulty: this.game.options.aiDifficulty,
+                moves: this.game.history,
+                gameState: {
+                    currentPlayer: this.game.currentPlayer,
+                    gameOver: this.game.gameOver,
+                    winner: this.game.winner,
+                    moveCount: this.game.moveCount,
+                    swapRule: this.game.swapRule,
+                    swapAvailable: this.game.swapAvailable
+                },
+                boardOptions: {
+                    redColor: this.game.board.options.redColor,
+                    blueColor: this.game.board.options.blueColor,
+                    boardColor: this.game.board.options.boardColor,
+                    cellSize: this.game.board.options.cellSize,
+                    orientation: this.game.board.options.orientation
+                }
+            };
+            
+            // 转换为JSON字符串
+            const gameDataJson = JSON.stringify(gameData, null, 2);
+            
+            // 创建下载链接
+            const blob = new Blob([gameDataJson], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            // 创建下载元素
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `hex_game_${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+            document.body.appendChild(a);
+            
+            // 触发下载
+            a.click();
+            
+            // 清理
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
+            
+            // 提示用户
+            alert('棋谱保存成功！');
+        } catch (error) {
+            console.error('保存棋谱失败:', error);
+            alert('保存棋谱失败，请稍后再试。');
+        }
     }
 
     /**
@@ -231,3 +253,4 @@ class HexSaveLoad {
             }
         }
     }
+}

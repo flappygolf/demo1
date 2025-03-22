@@ -88,6 +88,7 @@ button:disabled {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     padding: 20px;
+    z-index: 10; /* 确保棋盘容器在较高层级 */
 }
 
 #board {
@@ -102,6 +103,7 @@ button:disabled {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 20; /* 确保标签显示在最上层 */
 }
 
 .column-labels, .row-labels {
@@ -310,4 +312,48 @@ input[type="range"] {
         flex-direction: column;
     }
     
-    .board-container, .game-
+    .board-container, .game-info {
+        width: 100%;
+    }
+    
+    .style-options {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .control-group {
+        margin-bottom: 10px;
+    }
+}
+
+/* 棋子悬停效果增强 */
+.hex-cell:hover polygon {
+    stroke-width: 2;
+    filter: brightness(1.1);
+}
+
+/* 当前玩家高亮显示 */
+.player.current {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 胜利路径高亮 */
+.hex-cell.winning-path polygon {
+    stroke-width: 3;
+    stroke: #ffd700;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { stroke-opacity: 0.5; }
+    50% { stroke-opacity: 1; }
+    100% { stroke-opacity: 0.5; }
+}
