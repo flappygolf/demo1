@@ -16,6 +16,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 添加事件监听
     addEventListeners();
+    
+    // 设置游戏状态更新回调
+    if (hexGame) {
+        hexGame.onGameStateChange = updateGameStatus;
+    }
 });
 
 /**

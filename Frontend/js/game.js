@@ -118,6 +118,11 @@ class HexGame {
         );
         if (cell) {
             cell.classList.add(this.currentPlayer);
+            // 更新棋子颜色
+            const polygon = cell.querySelector('polygon');
+            if (polygon) {
+                polygon.setAttribute('fill', this.currentPlayer === 'red' ? this.board.options.redColor : this.board.options.blueColor);
+            }
         }
         
         // 增加移动计数

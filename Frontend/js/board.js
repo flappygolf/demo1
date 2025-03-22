@@ -126,6 +126,11 @@ class HexBoard {
 
         group.appendChild(polygon);
         group.style.transform = `translate(${size}px, ${size}px)`;
+        
+        // 检查棋盘数据，如果已有棋子则添加对应类名
+        if (this.boardData[r] && this.boardData[r][q]) {
+            group.classList.add(this.boardData[r][q]);
+        }
 
         return group;
     }
@@ -290,7 +295,12 @@ class HexBoard {
         rowLabels.innerHTML = '';
 
         // 设置标签样式
-        const labelStyle = 'position: absolute; font-size: 12px; color: #555;';
+        const labelStyle = 'position: absolute; font-size: 12px; color: #333; font-weight: bold;';
+        
+        // 设置CSS变量
+        document.documentElement.style.setProperty('--red-color', this.options.redColor);
+        document.documentElement.style.setProperty('--blue-color', this.options.blueColor);
+        document.documentElement.style.setProperty('--board-color', this.options.boardColor);
 
         // 添加列标签 (a, b, c, ...)
         for (let q = 0; q < size; q++) {

@@ -249,27 +249,27 @@ input[type="range"] {
 
 /* 六边形棋盘样式 */
 .hex-cell {
-    position: absolute;
+    position: relative;
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .hex-cell polygon {
-    stroke: #000;
+    stroke: #333;
     stroke-width: 1;
     transition: fill 0.2s;
 }
 
 .hex-cell:hover polygon {
-    fill: rgba(255, 255, 255, 0.3);
+    fill: rgba(255, 255, 255, 0.7);
 }
 
 .hex-cell.red polygon {
-    fill: #ff4136;
+    fill: var(--red-color, #ff4136);
 }
 
 .hex-cell.blue polygon {
-    fill: #0074d9;
+    fill: var(--blue-color, #0074d9);
 }
 
 /* 模态框样式 */
