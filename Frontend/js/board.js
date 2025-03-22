@@ -7,7 +7,7 @@ class HexBoard {
         // 默认选项
         this.options = {
             size: 11,                // 棋盘大小 (n x n)
-            cellSize: 35,            // 六边形格子大小
+            cellSize: 30,            // 六边形格子大小 (减小默认大小)
             boardColor: '#f5deb3',   // 棋盘颜色
             redColor: '#ff4136',     // 红方颜色
             blueColor: '#0074d9',    // 蓝方颜色
@@ -62,13 +62,14 @@ class HexBoard {
             ? 2 * cellSize 
             : Math.sqrt(3) * cellSize;
 
-        // 计算棋盘尺寸
+        // 计算棋盘尺寸（减小边距）
+        const margin = cellSize * 1.5; // 减小边距使棋盘更紧凑
         const boardWidth = orientation === 'flat'
-            ? (size * 1.5 * cellSize) + (0.5 * cellSize)
-            : (size * hexWidth) + (0.5 * hexWidth);
+            ? (size * 1.5 * cellSize) + (0.5 * cellSize) + (margin * 2) + cellSize
+            : (size * hexWidth) + (0.5 * hexWidth) + (margin * 2) + cellSize;
         const boardHeight = orientation === 'flat'
-            ? (size * hexHeight) + (0.5 * hexHeight)
-            : (size * 1.5 * cellSize) + (0.5 * cellSize);
+            ? (size * hexHeight) + (0.5 * hexHeight) + (margin * 2) + cellSize
+            : (size * 1.5 * cellSize) + (0.5 * cellSize) + (margin * 2) + cellSize;
 
         // 设置SVG尺寸
         this.svg.setAttribute('width', boardWidth);
@@ -300,7 +301,7 @@ class HexBoard {
         rowLabels.innerHTML = '';
 
         // 设置标签样式
-        const labelStyle = 'position: absolute; font-size: 12px; color: #333; font-weight: bold; z-index: 15;';
+        const labelStyle = 'position: absolute; font-size: 10px; color: #333; font-weight: bold; z-index: 15;';
         
         // 设置CSS变量
         document.documentElement.style.setProperty('--red-color', this.options.redColor);
@@ -323,7 +324,7 @@ class HexBoard {
 
                 // 底部标签
                 const bottomLabel = label.cloneNode(true);
-                bottomLabel.style.top = `${this.svg.clientHeight - 15}px`;
+                bottomLabel.style.top = `${this.svg.clientHeight - 12}px`;
                 columnLabels.appendChild(bottomLabel);
             } else {
                 // 垂直朝向的六边形
@@ -334,7 +335,7 @@ class HexBoard {
 
                 // 底部标签
                 const bottomLabel = label.cloneNode(true);
-                bottomLabel.style.top = `${this.svg.clientHeight - 15}px`;
+                bottomLabel.style.top = `${this.svg.clientHeight - 12}px`;
                 columnLabels.appendChild(bottomLabel);
             }
 
@@ -357,7 +358,7 @@ class HexBoard {
 
                 // 右侧标签
                 const rightLabel = label.cloneNode(true);
-                rightLabel.style.left = `${this.svg.clientWidth - 15}px`;
+                rightLabel.style.left = `${this.svg.clientWidth - 12}px`;
                 rowLabels.appendChild(rightLabel);
             } else {
                 // 垂直朝向的六边形
@@ -368,7 +369,7 @@ class HexBoard {
 
                 // 右侧标签
                 const rightLabel = label.cloneNode(true);
-                rightLabel.style.left = `${this.svg.clientWidth - 15}px`;
+                rightLabel.style.left = `${this.svg.clientWidth - 12}px`;
                 rowLabels.appendChild(rightLabel);
             }
 
