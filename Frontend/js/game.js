@@ -593,7 +593,4 @@ class HexGame {
         path.pop();
         return false;
     }
-        } else {
-            this.swapAvailable = false;
-        }
-    
+}
