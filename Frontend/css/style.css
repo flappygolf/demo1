@@ -1,0 +1,313 @@
+/* 全局样式 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+/* 游戏控制区域 */
+.game-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+select, button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* 游戏区域 */
+.game-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.board-container {
+    position: relative;
+    flex: 1;
+    min-width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+#board {
+    position: relative;
+    margin: 0 auto;
+}
+
+.board-labels {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.column-labels, .row-labels {
+    position: absolute;
+    display: flex;
+    font-size: 12px;
+    color: #555;
+}
+
+/* 游戏信息区域 */
+.game-info {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.player-info, .game-status, .move-history, .game-actions {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+}
+
+.player-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.player-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.player.red .player-color {
+    background-color: #ff4136;
+}
+
+.player.blue .player-color {
+    background-color: #0074d9;
+}
+
+.player-status {
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+.game-status {
+    text-align: center;
+}
+
+#swap-btn {
+    margin-top: 10px;
+}
+
+.move-history {
+    flex-grow: 1;
+}
+
+.move-history h3 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#moves-list {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.move-item {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.move-item:hover {
+    background-color: #f9f9f9;
+}
+
+.move-item.current {
+    background-color: #e1f5fe;
+}
+
+.game-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.game-actions button {
+    flex: 1;
+}
+
+/* 样式控制区域 */
+.style-controls {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.style-controls h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.style-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.style-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+input[type="color"] {
+    width: 40px;
+    height: 25px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="range"] {
+    width: 100px;
+}
+
+/* 六边形棋盘样式 */
+.hex-cell {
+    position: absolute;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.hex-cell polygon {
+    stroke: #000;
+    stroke-width: 1;
+    transition: fill 0.2s;
+}
+
+.hex-cell:hover polygon {
+    fill: rgba(255, 255, 255, 0.3);
+}
+
+.hex-cell.red polygon {
+    fill: #ff4136;
+}
+
+.hex-cell.blue polygon {
+    fill: #0074d9;
+}
+
+/* 模态框样式 */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #555;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .game-area {
+        flex-direction: column;
+    }
+    
+    .board-container, .game-

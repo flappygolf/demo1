@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex棋游戏</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hex棋游戏</h1>
+        </header>
+
+        <div class="game-controls">
+            <div class="control-group">
+                <label for="board-size">棋盘大小:</label>
+                <select id="board-size">
+                    <option value="7">7×7</option>
+                    <option value="9">9×9</option>
+                    <option value="11" selected>11×11</option>
+                    <option value="13">13×13</option>
+                    <option value="15">15×15</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="game-mode">游戏模式:</label>
+                <select id="game-mode">
+                    <option value="human-human">人人对战</option>
+                    <option value="human-ai">人机对战</option>
+                </select>
+            </div>
+
+            <div class="control-group ai-options" style="display: none;">
+                <label for="ai-difficulty">AI难度:</label>
+                <select id="ai-difficulty">
+                    <option value="easy">简单</option>
+                    <option value="medium">中等</option>
+                    <option value="hard">困难</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="first-player">先手:</label>
+                <select id="first-player">
+                    <option value="red">红方</option>
+                    <option value="blue">蓝方</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <button id="new-game-btn">新游戏</button>
+            </div>
+
+            <div class="control-group">
+                <button id="custom-ai-btn">使用自定义AI</button>
+            </div>
+        </div>
+
+        <div class="style-controls">
+            <h3>棋盘样式设置</h3>
+            <div class="style-options">
+                <div class="style-group">
+                    <label for="red-color">红方颜色:</label>
+                    <input type="color" id="red-color" value="#ff4136">
+                </div>
+
+                <div class="style-group">
+                    <label for="blue-color">蓝方颜色:</label>
+                    <input type="color" id="blue-color" value="#0074d9">
+                </div>
+
+                <div class="style-group">
+                    <label for="board-color">棋盘颜色:</label>
+                    <input type="color" id="board-color" value="#f5deb3">
+                </div>
+
+                <div class="style-group">
+                    <label for="cell-size">格子大小:</label>
+                    <input type="range" id="cell-size" min="20" max="50" value="35">
+                </div>
+
+                <div class="style-group">
+                    <label for="board-orientation">棋盘方向:</label>
+                    <select id="board-orientation">
+                        <option value="flat">水平方向</option>
+                        <option value="pointy">垂直方向</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="board-container">
+                <div id="board"></div>
+                <div class="board-labels">
+                    <div class="column-labels"></div>
+                    <div class="row-labels"></div>
+                </div>
+            </div>
+
+            <div class="game-info">
+                <div class="player-info">
+                    <div class="player red">
+                        <div class="player-color"></div>
+                        <div class="player-name">红方</div>
+                        <div class="player-status">连接左右边</div>
+                    </div>
+                    <div class="player blue">
+                        <div class="player-color"></div>
+                        <div class="player-name">蓝方</div>
+                        <div class="player-status">连接上下边</div>
+                    </div>
+                </div>
+
+                <div class="game-status">
+                    <div id="status-message">游戏准备中...</div>
+                    <button id="swap-btn" style="display: none;">交换首步</button>
+                </div>
+
+                <div class="move-history">
+                    <h3>历史记录</h3>
+                    <div id="moves-list"></div>
+                </div>
+
+                <div class="game-actions">
+                    <button id="save-game-btn">保存棋谱</button>
+                    <button id="load-game-btn">加载棋谱</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框 -->
+    <div id="custom-ai-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>上传自定义AI</h2>
+            <p>选择您的Python AI文件:</p>
+            <input type="file" id="ai-file-input" accept=".py">
+            <button id="upload-ai-btn">上传</button>
+        </div>
+    </div>
+
+    <!-- 脚本引入 -->
+    <script src="js/board.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/history.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/save-load.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
